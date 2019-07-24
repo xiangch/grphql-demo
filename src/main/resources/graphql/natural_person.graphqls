@@ -1,0 +1,10 @@
+type Query {
+  naturalPerson(id: String): NaturalPerson
+}
+
+type NaturalPerson {
+  name: String
+  mobileNumber: String
+  identityCard: String
+}
+
