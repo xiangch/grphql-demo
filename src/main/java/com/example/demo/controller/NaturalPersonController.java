@@ -22,13 +22,17 @@ public class NaturalPersonController {
 	@Autowired
 	GraphQL graphQL;
 
-	@GetMapping("/naturalPerson/{query}")
-	public Object getNaturalPerson(@PathVariable("query") String query) {
-		Map<String, String> data = graphQL.execute("{ naturalPerson(id: \"" + query + "\") {" +
-				" name "+
-				" mobileNumber" +
-				" identityCard" +
-				"}}").getData();
+	@GetMapping("/naturalPerson/{id}")
+	public Object getNaturalPerson(@PathVariable("id") String id) {
+		String query ="query test($id:String){" +
+				"  naturalPerson(id: $id) {" +
+				"    name" +
+				"  }" +
+				"}";
+		Map<String, Object> variables = new LinkedHashMap<>();
+		variables.put("id",id);
+		ExecutionResult executionResult = graphQL.execute(query, (Object) null, variables);
+		Map<String, String> data = executionResult.getData();
 		return data.get("naturalPerson");
 
 	}
