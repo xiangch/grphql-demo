@@ -42,7 +42,9 @@ public class GraphQLProvider {
 		TypeDefinitionRegistry typeRegistry = new TypeDefinitionRegistry();
 
 		// each registry is merged into the main registry
+		typeRegistry.merge(schemaParser.parse(loadSchema("root")));
 		typeRegistry.merge(schemaParser.parse(loadSchema("natural_person")));
+		typeRegistry.merge(schemaParser.parse(loadSchema("legal_person")));
 
 
 		GraphQLSchema graphQLSchema = schemaGenerator.makeExecutableSchema(typeRegistry, buildWiring());
@@ -51,11 +53,11 @@ public class GraphQLProvider {
 	}
 
 	private File loadSchema(String schemaName) {
-		ClassPathResource classPathResource = new ClassPathResource("graphql/" + schemaName + ".graphqls");
+		ClassPathResource classPathResource = new ClassPathResource("graphql/" + schemaName + ".schema");
 		File schemaFile = null;
 		try (InputStream inputStream = classPathResource.getInputStream()) {
 			//生成目标文件
-			schemaFile = File.createTempFile(schemaName + "_template", ".graphqls");
+			schemaFile = File.createTempFile(schemaName + "_template", ".schema");
 			FileUtils.copyInputStreamToFile(inputStream, schemaFile);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -67,7 +69,8 @@ public class GraphQLProvider {
 	private RuntimeWiring buildWiring() {
 		return RuntimeWiring.newRuntimeWiring()
 				.type(newTypeWiring("Query")
-						.dataFetcher("naturalPerson", graphQLDataFetchers.getNaturalPersonByIdDataFetcher())
-				).build();
+						.dataFetcher("naturalPerson", graphQLDataFetchers.getNaturalPersonByIdDataFetcher()
+						).dataFetcher("legalPerson", graphQLDataFetchers.getNaturalPersonByIdDataFetcher()
+						)).build();
 	}
 }
