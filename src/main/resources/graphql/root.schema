@@ -1,0 +1,4 @@
+type Query {
+  naturalPerson(id: String): NaturalPerson
+  legalPerson(id: String): LegalPerson
+}

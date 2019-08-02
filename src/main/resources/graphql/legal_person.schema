@@ -1,0 +1,6 @@
+type LegalPerson {
+  name: String
+  mobileNumber: String
+  identityCard: String
+}
+
