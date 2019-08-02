@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import graphql.ExecutionInput;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +23,17 @@ public class NaturalPersonController {
 
 	@GetMapping("/naturalPerson/{id}")
 	public Object getNaturalPerson(@PathVariable("id") String id) {
-		String query ="query test($id:String){" +
-				"  naturalPerson(id: $id) {" +
-				"    name" +
+		String query ="query NaturalPerson($id:String){" +
+				" naturalPerson(id: $id) {" +
+				"    name,mobileNumber" +
 				"  }" +
 				"}";
 		Map<String, Object> variables = new LinkedHashMap<>();
 		variables.put("id",id);
-		ExecutionResult executionResult = graphQL.execute(query, (Object) null, variables);
+		ExecutionResult executionResult = graphQL.execute(ExecutionInput.newExecutionInput()
+				.query(query)
+				.variables(variables)
+				.build());
 		Map<String, String> data = executionResult.getData();
 		return data.get("naturalPerson");
 
