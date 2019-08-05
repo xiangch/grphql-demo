@@ -1,4 +1,4 @@
 type Query {
-  naturalPerson(id: String): NaturalPerson
+  naturalPerson(id: String,appId:String,category:Int): NaturalPerson
   legalPerson(id: String): LegalPerson
 }

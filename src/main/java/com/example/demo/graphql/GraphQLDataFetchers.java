@@ -68,7 +68,9 @@ public class GraphQLDataFetchers {
 
 	public DataFetcher getNaturalPersonByIdDataFetcher() {
 		return dataFetchingEnvironment -> {
-			String id = dataFetchingEnvironment.getSource();
+			Map<String, Object> arguments = dataFetchingEnvironment.getSource();
+			String id = (String) arguments.get("id");
+			String appId = (String) arguments.get("appId");
 			Map<String, String> person = getNaturalPersonByIdentityCard(id);
 			return person == null ? getNaturalPersonByMobileNumber(id) : person;
 		};

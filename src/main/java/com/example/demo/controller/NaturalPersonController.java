@@ -24,13 +24,15 @@ public class NaturalPersonController {
 
 	@GetMapping("/naturalPerson/{id}")
 	public Object getNaturalPerson(@PathVariable("id") String id) {
-		String query ="query NaturalPerson($id:String){" +
-				" naturalPerson(id: $id) {" +
-				"    name,mobileNumber" +
+		String query ="query NaturalPerson($id:String,$appId:String,$category:Int){" +
+				" naturalPerson(id: $id,appId:$appId,category:$category) {" +
+				"  basic{  name,mobileNumber}" +
 				"  }" +
 				"}";
 		Map<String, Object> variables = new LinkedHashMap<>();
 		variables.put("id",id);
+		variables.put("appId","01");
+		variables.put("$category",1);
 		ExecutionResult executionResult = graphQL.execute(ExecutionInput.newExecutionInput()
 				.query(query)
 				.variables(variables)

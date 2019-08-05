@@ -69,7 +69,7 @@ public class GraphQLProvider {
 	private RuntimeWiring buildWiring() {
 		return RuntimeWiring.newRuntimeWiring()
 				.type(newTypeWiring("Query")
-						.dataFetcher("naturalPerson", s->s.getArgument("id")
+						.dataFetcher("naturalPerson", dataFetchingEnvironment->dataFetchingEnvironment.getArguments()
 						).dataFetcher("legalPerson", graphQLDataFetchers.getNaturalPersonByIdDataFetcher()
 						))
 				.type(newTypeWiring("NaturalPerson").dataFetcher("basic",graphQLDataFetchers.getNaturalPersonByIdDataFetcher()))
