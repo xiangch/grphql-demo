@@ -1,6 +1,15 @@
 type NaturalPerson {
+    basic:Basic
+}
+# 基本信息
+type Basic{
+  # 姓名
   name: String
   mobileNumber: String
   identityCard: String
+  sex:String
+  age:String
 }
+
+
 

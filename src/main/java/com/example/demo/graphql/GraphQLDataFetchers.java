@@ -33,7 +33,8 @@ public class GraphQLDataFetchers {
 	private static List<Map<String, String>> naturalPersons = Arrays.asList(
 			ImmutableMap.of("name", "张三",
 					"mobileNumber", "13800138000",
-					"identityCard", "441721199001012031"),
+					"identityCard", "441721199001012031","age","18"),
+
 			ImmutableMap.of("name", "李四",
 					"mobileNumber", "13800138001",
 					"identityCard", "441721199001012032"),
@@ -67,7 +68,7 @@ public class GraphQLDataFetchers {
 
 	public DataFetcher getNaturalPersonByIdDataFetcher() {
 		return dataFetchingEnvironment -> {
-			String id = dataFetchingEnvironment.getArgument("id");
+			String id = dataFetchingEnvironment.getSource();
 			Map<String, String> person = getNaturalPersonByIdentityCard(id);
 			return person == null ? getNaturalPersonByMobileNumber(id) : person;
 		};

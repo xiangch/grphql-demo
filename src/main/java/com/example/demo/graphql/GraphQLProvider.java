@@ -69,8 +69,10 @@ public class GraphQLProvider {
 	private RuntimeWiring buildWiring() {
 		return RuntimeWiring.newRuntimeWiring()
 				.type(newTypeWiring("Query")
-						.dataFetcher("naturalPerson", graphQLDataFetchers.getNaturalPersonByIdDataFetcher()
+						.dataFetcher("naturalPerson", s->s.getArgument("id")
 						).dataFetcher("legalPerson", graphQLDataFetchers.getNaturalPersonByIdDataFetcher()
-						)).build();
+						))
+				.type(newTypeWiring("NaturalPerson").dataFetcher("basic",graphQLDataFetchers.getNaturalPersonByIdDataFetcher()))
+				.build();
 	}
 }
